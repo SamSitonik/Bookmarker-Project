@@ -1,20 +1,21 @@
-// DONE! 10/31/19
-function saveBookmark(e) {
+// 10/31/19-HOMEWORK, convert to ES6
+
+const saveBookmark = e => {
     // Prevent from page reloading;
     e.preventDefault();
   
     // Get site name and url
-    var siteName = document.querySelector("#siteName").value;
-    var siteUrl = document.querySelector("#siteUrl").value;
+    const siteName = document.querySelector("#siteName").value;
+    const siteUrl = document.querySelector("#siteUrl").value;
   
     // create a bookmark object
-    var bookmark = {
+    const bookmark = {
       name: siteName,
       url: siteUrl
     };
   
     // Store bookmark
-    var bookmarks = [];
+    let bookmarks = [];
   
     // check if the local storage is not empty
     if (localStorage.getItem("bookmarks") !== null) {
@@ -34,40 +35,39 @@ function saveBookmark(e) {
     // empty the inputs
     document.querySelector("form").reset();
   }
-  
-  // Fetch bookmarks
-  function fetchBookmarks() {
+  // 2nd Function-- Fetch bookmarks
+  const fetchBookmarks = () => {
     // Get bookmarks from local storage
-    var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
   
     // Select the output bookmarks div
-    var output = document.querySelector("#bookmarks");
+    const output = document.querySelector("#bookmarks");
   
     // Reset the bookmarks div
     output.innerHTML = "";
   
     // Loop over bookmarks
-    for (var i = 0; i < bookmarks.length; i++) {
+    for (let bookmark of bookmarks) {
       // Create div
-      var div = document.createElement("div");
+      const div = document.createElement("div");
       // Create h3 with bookmark name as content
-      var h3 = document.createElement("h3");
-      h3.textContent = bookmarks[i].name;
+      const h3 = document.createElement("h3");
+      h3.textContent = bookmark.name;
   
       // Create visit link
-      var a = document.createElement("a");
-      a.href = bookmarks[i].url;
+      let a = document.createElement("a");
+      a.href = bookmark.url;
       a.className = "btn btn-success";
       a.textContent = "Visit";
   
       // Create delete button
-      var button = document.createElement("button");
+      const button = document.createElement("button");
       button.className = "btn btn-danger";
       button.textContent = "Delete";
   
       // Add event listener to delete button
-      button.addEventListener("click", function(e) {
-        var name = e.target.parentElement.children[0].textContent;
+      button.addEventListener("click", e => {
+        const name = e.target.parentElement.children[0].textContent;
         deleteBookmark(name);
       });
   
@@ -80,13 +80,13 @@ function saveBookmark(e) {
       output.appendChild(div);
     }
   }
-  // Delete bookmark
-  function deleteBookmark(name) {
+  // 3rd Function-- Delete bookmark
+  const deleteBookmark = name => {
     // Get bookmarks from local storage
-    var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
   
     // loop over bookmarks
-    for (var i = 0; i < bookmarks.length; i++) {
+    for (let i in bookmarks) {
       // looking up bookmark with given name, then delete it
       if (bookmarks[i].name === name) {
         bookmarks.splice(i, 1);
@@ -100,27 +100,26 @@ function saveBookmark(e) {
     // re-fetch bookmarks output
     fetchBookmarks();
   }
-  // Select filter input
-  var filter = document.querySelector("#filter");
+
+  // 4th Function-- Select filter input
+  const filter = document.querySelector("#filter");
   
   // Filter bookmarks
-  function filterBookmarks() {
+  const filterBookmarks = () => {
     // Select all bookmarks name
-    var bookmarks = document.querySelectorAll("#bookmarks div h3");
+    const bookmarks = document.querySelectorAll("#bookmarks div h3");
   
     // loop over bookmarks
-    for (var i = 0; i < bookmarks.length; i++) {
+    for (let bookmark of bookmarks) {
       if (
-        bookmarks[i].textContent
-          .toUpperCase()
-          .includes(filter.value.toUpperCase())
-      ) {
-        bookmarks[i].parentNode.style.display = "block";
+        bookmark.textContent.toUpperCase().includes(filter.value.toUpperCase()
+      )) {
+        bookmark.parentNode.style.display = "block";
       } else {
-        bookmarks[i].parentNode.style.display = "none";
+        bookmark.parentNode.style.display = "none";
       }
     }
-  }
+  };
   
   // Adding event listener to submit button
   document.querySelector("form").addEventListener("submit", saveBookmark);
